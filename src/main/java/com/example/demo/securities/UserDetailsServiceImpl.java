@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.demo.models.Usuario;
+import com.example.demo.models.User;
 import com.example.demo.repositories.UsuarioRepository;
 
 @Service
@@ -26,7 +26,7 @@ public class UserDetailsServiceImpl  implements UserDetailsService{
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         logger.info("");
-        Usuario usuario = usuarioRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username + " não foi encontrado."));
+        User usuario = usuarioRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username + " não foi encontrado."));
         
         UserDetailsImpl user = new UserDetailsImpl(usuario.getId(), 
         usuario.getUsername(), 

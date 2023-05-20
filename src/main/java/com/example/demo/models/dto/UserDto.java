@@ -1,20 +1,20 @@
 package com.example.demo.models.dto;
 
-import com.example.demo.models.Usuario;
+import com.example.demo.models.User;
 
-public class UsuarioDto {
+public class UserDto {
     private Long id;
     private String username;
     private String email;
-    public UsuarioDto() {
+    public UserDto() {
     }
-    public UsuarioDto(Long id, String username, String email) {
+    public UserDto(Long id, String username, String email) {
         this.id = id;
         this.username = username;
         this.email = email;
     }
 
-    public UsuarioDto(Usuario usuario){
+    public UserDto(User usuario){
         id = usuario.getId();
         username = usuario.getUsername();
         email = usuario.getEmail();

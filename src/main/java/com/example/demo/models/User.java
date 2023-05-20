@@ -3,7 +3,7 @@ package com.example.demo.models;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.example.demo.services.enums.EPerfil;
+import com.example.demo.models.enums.EPerfil;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -21,7 +21,7 @@ import jakarta.persistence.UniqueConstraint;;
     @UniqueConstraint(columnNames = "username"),
     @UniqueConstraint(columnNames = "email")
 })
-public class Usuario {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,10 +34,10 @@ public class Usuario {
     joinColumns = @JoinColumn(name = "usuario_id"),
     inverseJoinColumns = @JoinColumn(name = "perfil_id")
     )
-    private Set<Perfil> perfis = new HashSet<>();
-    public Usuario() {
+    private Set<Role> perfis = new HashSet<>();
+    public User() {
     }
-    public Usuario(Long id, String username, String password, String email) {
+    public User(Long id, String username, String password, String email) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -68,14 +68,14 @@ public class Usuario {
     public void setEmail(String email) {
         this.email = email;
     }
-    public Set<Perfil> getPerfis() {
+    public Set<Role> getPerfis() {
         return perfis;
     }
-    public void addPerfil(Perfil perfil){
+    public void addPerfil(Role perfil){
         perfis.add(perfil);
     }
 
     public void addPerfil(EPerfil nome){
-        addPerfil(new Perfil(null, nome));
+        addPerfil(new Role(null, nome));
     }
 }

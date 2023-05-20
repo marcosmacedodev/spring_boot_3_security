@@ -17,16 +17,24 @@ public class ServiceErrorHandler extends ResponseEntityExceptionHandler {
         @ExceptionHandler({ AccessDeniedException.class })
         public ResponseEntity<Object> handleAccessDeniedException(
           Exception ex, HttpServletRequest request/* , WebRequest webRequest*/) {
-            ResponseError responseError = new ResponseError(System.currentTimeMillis(), HttpStatus.FORBIDDEN.value(), HttpStatus.FORBIDDEN.getReasonPhrase(), ex.getMessage(), request.getRequestURI());
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(responseError);
+            return responseEntity(HttpStatus.FORBIDDEN, ex.getMessage(), request.getRequestURI());
         }
 
-        @ExceptionHandler({ UsuarioException.class })
-        public ResponseEntity<Object> handleUsuarioException(
+        @ExceptionHandler({ UserRegisterException.class })
+        public ResponseEntity<Object> handleUserRegisterException(
           Exception ex, HttpServletRequest request) {
-            ResponseError responseError = new ResponseError(System.currentTimeMillis(), HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), ex.getMessage(), request.getRequestURI());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseError);
+            return responseEntity(HttpStatus.BAD_REQUEST, ex.getMessage(), request.getRequestURI());
         }
 
+        @ExceptionHandler({ UserNotFoundException.class })
+        public ResponseEntity<Object> handleUserNotFoundException(
+          Exception ex, HttpServletRequest request) {
+            return responseEntity(HttpStatus.NOT_FOUND, ex.getMessage(), request.getRequestURI());
+        }
+
+        private ResponseEntity<Object> responseEntity(HttpStatus httpStatus, String message, String uri){
+          ResponseError responseError = new ResponseError(System.currentTimeMillis(), httpStatus.value(), httpStatus.getReasonPhrase(), message, uri);
+            return ResponseEntity.status(httpStatus).body(responseError);
+        }
 
 }

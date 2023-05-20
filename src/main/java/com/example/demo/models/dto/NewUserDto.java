@@ -5,7 +5,7 @@ import org.hibernate.validator.constraints.Length;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
-public class NovoUsuarioDto {
+public class NewUserDto {
     
     @NotBlank(message = "Preenchimento obrigatório")
     @Length(min = 8, max = 32, message = "Digite um nome de usuário entre 8 e 32 caracteres.")
@@ -17,10 +17,10 @@ public class NovoUsuarioDto {
     @Email(message = "Email é inválido")
     private String email;
 
-    public NovoUsuarioDto() {
+    public NewUserDto() {
     }
     
-    public NovoUsuarioDto(String username, String password, String email) {
+    public NewUserDto(String username, String password, String email) {
         this.username = username;
         this.password = password;
         this.email = email;
