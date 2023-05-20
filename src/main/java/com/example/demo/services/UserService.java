@@ -10,9 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.demo.models.User;
 import com.example.demo.models.dto.NewUserDto;
 import com.example.demo.models.dto.UserDto;
-import com.example.demo.models.enums.EPerfil;
-import com.example.demo.repositories.PerfilRepository;
-import com.example.demo.repositories.UsuarioRepository;
+import com.example.demo.repositories.UserRepository;
 import com.example.demo.services.exceptions.UserNotFoundException;
 import com.example.demo.services.exceptions.UserRegisterException;
 
@@ -20,36 +18,32 @@ import com.example.demo.services.exceptions.UserRegisterException;
 public class UserService {
 
     @Autowired
-    private UsuarioRepository usuarioRepository;
-    @Autowired
-    private PerfilRepository pRepository;
+    private UserRepository userRepository;
 
     @Transactional(readOnly = true)
     public List<UserDto> findAll(){
-        List <User> usuarios = usuarioRepository.findAll();
+        List <User> usuarios = userRepository.findAll();
         return usuarios.stream().map(usuario -> new UserDto(usuario)).toList();
     }
 
     @Transactional
     public User findById(Long id){
-        Optional<User> usuario = usuarioRepository.findById(id);
-        return usuario.orElseThrow(() -> new UserNotFoundException("Não foi possível encontrar id: " + id));
+        Optional<User> user = userRepository.findById(id);
+        return user.orElseThrow(() -> new UserNotFoundException("Não foi possível encontrar id: " + id));
     }
 
     @Transactional
-    public User insert(NewUserDto novoUsuarioDto){
-        User novoUsuario;
-        if (usuarioRepository.existsByUsername(novoUsuarioDto.getUsername())){
-            throw new UserRegisterException("Nome de usuário '" + novoUsuarioDto.getUsername() + "' já está em uso");
+    public User insert(NewUserDto newUserDto){
+        User newUser;
+        if (userRepository.existsByUsername(newUserDto.getUsername())){
+            throw new UserRegisterException("Nome de usuário '" + newUserDto.getUsername() + "' já está em uso");
         }
-        if (usuarioRepository.existsByEmail(novoUsuarioDto.getEmail())){
-            throw new UserRegisterException("Email '" + novoUsuarioDto.getEmail() + "' já está em uso");
+        if (userRepository.existsByEmail(newUserDto.getEmail())){
+            throw new UserRegisterException("Email '" + newUserDto.getEmail() + "' já está em uso");
         }
-        novoUsuario= new User(null, novoUsuarioDto.getUsername(), novoUsuarioDto.getPassword(), novoUsuarioDto.getEmail());
-        novoUsuario.addPerfil(EPerfil.ROLE_USER);
-        novoUsuario = usuarioRepository.save(novoUsuario);
-        pRepository.saveAll(novoUsuario.getPerfis());
-        return novoUsuario;
+        newUser = new User(null, newUserDto.getUsername(), newUserDto.getPassword(), newUserDto.getEmail());
+        newUser = userRepository.save(newUser);
+        return newUser;
     }
     
 }

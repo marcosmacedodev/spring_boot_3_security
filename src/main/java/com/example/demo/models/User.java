@@ -3,7 +3,7 @@ package com.example.demo.models;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.example.demo.models.enums.EPerfil;
+import com.example.demo.models.enums.ERole;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -17,7 +17,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;;
 
 @Entity
-@Table(name = "tb_usuario", uniqueConstraints = {
+@Table(name = "tb_users", uniqueConstraints = {
     @UniqueConstraint(columnNames = "username"),
     @UniqueConstraint(columnNames = "email")
 })
@@ -34,7 +34,7 @@ public class User {
     joinColumns = @JoinColumn(name = "usuario_id"),
     inverseJoinColumns = @JoinColumn(name = "perfil_id")
     )
-    private Set<Role> perfis = new HashSet<>();
+    private Set<Role> roles = new HashSet<>();
     public User() {
     }
     public User(Long id, String username, String password, String email) {
@@ -68,14 +68,14 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
-    public Set<Role> getPerfis() {
-        return perfis;
+    public Set<Role> getRoles() {
+        return roles;
     }
-    public void addPerfil(Role perfil){
-        perfis.add(perfil);
+    public void addRole(Role role){
+        roles.add(role);
     }
 
-    public void addPerfil(EPerfil nome){
-        addPerfil(new Role(null, nome));
+    public void addRole(ERole nome){
+        addRole(new Role(null, nome));
     }
 }

@@ -1,9 +1,7 @@
 package com.example.demo.models.enums;
 
-public enum EPerfil {
-
+public enum ERole {
     ROLE_USER, 
     ROLE_MODERATOR,
-    ROLE_ADMIN
-    
+    ROLE_ADMIN   
 }

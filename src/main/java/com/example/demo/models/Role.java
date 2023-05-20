@@ -1,7 +1,7 @@
 package com.example.demo.models;
 
 
-import com.example.demo.models.enums.EPerfil;
+import com.example.demo.models.enums.ERole;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -12,21 +12,21 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "tb_perfil")
+@Table(name = "tb_roles")
 public class Role {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Enumerated(EnumType.STRING)
-    private EPerfil nome;
+    private ERole name;
 
     public Role() {
     }
 
-    public Role(Long id, EPerfil nome) {
+    public Role(Long id, ERole name) {
         this.id = id;
-        this.nome = nome;
+        this.name = name;
     }
 
     public Long getId() {
@@ -37,12 +37,12 @@ public class Role {
         this.id = id;
     }
 
-    public EPerfil getNome() {
-        return nome;
+    public ERole getNome() {
+        return name;
     }
 
-    public void setNome(EPerfil nome) {
-        this.nome = nome;
+    public void setNome(ERole name) {
+        this.name = name;
     }
     
 }

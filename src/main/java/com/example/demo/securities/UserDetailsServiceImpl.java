@@ -11,13 +11,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.models.User;
-import com.example.demo.repositories.UsuarioRepository;
+import com.example.demo.repositories.UserRepository;
 
 @Service
 public class UserDetailsServiceImpl  implements UserDetailsService{
 
     @Autowired
-    private UsuarioRepository usuarioRepository;
+    private UserRepository usuarioRepository;
 
     private static final Logger logger = LoggerFactory.getLogger(BAuthentication.class);
 
@@ -26,13 +26,12 @@ public class UserDetailsServiceImpl  implements UserDetailsService{
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         logger.info("");
-        User usuario = usuarioRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username + " não foi encontrado."));
-        
-        UserDetailsImpl user = new UserDetailsImpl(usuario.getId(), 
-        usuario.getUsername(), 
-        usuario.getPassword(), 
-        usuario.getPerfis().stream().map(
-            perfil -> new SimpleGrantedAuthority(perfil.getNome().name())).toList());
-        return user;
+        User user = usuarioRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username + " não foi encontrado."));
+        UserDetailsImpl userDetailsImpl = new UserDetailsImpl(user.getId(), 
+        user.getUsername(), 
+        user.getPassword(), 
+        user.getRoles().stream().map(
+            role -> new SimpleGrantedAuthority(role.getNome().name())).toList());
+        return userDetailsImpl;
     }
 }
